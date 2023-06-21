@@ -1,0 +1,2 @@
+class ExerciseNotFound(Exception):
+    pass

@@ -1,0 +1,34 @@
+version: "3"
+services:
+  backend:
+    container_name: docker-image-manager-backend
+    image: docker-image-manager-backend
+    build:
+      context: ./apps/backend
+      dockerfile: ./compose/dev/Dockerfile
+    restart: on-failure
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./apps/backend:/app
+      - ./apps/backend.config:/root/.env
+  frontend:
+    container_name: docker-image-manager-frontend
+    image: docker-image-manager-frontend
+    build:
+      context: ./apps/frontend
+      dockerfile: ./compose/dev/Dockerfile
+    restart: on-failure
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./apps/frontend:/app
+      - ./frontend.config:/app/.env.development
+  cache:
+    container_name: redis
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    # volumes:
+    #   - cache:/data
